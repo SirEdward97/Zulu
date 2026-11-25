@@ -1,5 +1,4 @@
 import { ChevronRight } from 'lucide-react';
-import logoSena from '../assets/logoSenaNaranja.png';
 import type { AdminTab, AuthMode, UserProfile } from '../types/auth';
 
 interface HeaderProps {
@@ -12,9 +11,9 @@ interface HeaderProps {
 }
 
 /**
- * Centered floating frosted-glass dock header:
- * - On Login (!user): minimal centered glass dock with SENA logo + Eventos SENA.
- * - Authenticated (user): [SENA Logo]  [Resumen · Eventos · Usuarios]  [Cerrar sesión [›]]
+ * Encabezado flotante centrado con efecto de vidrio esmerilado:
+ * - En el login (!user): barra compacta centrada con logo SENA y Eventos SENA.
+ * - Autenticado (user): [Logo SENA]  [Resumen · Eventos · Usuarios]  [Cerrar sesión [›]]
  */
 export function Header({
   onSelectAuthMode,
@@ -48,13 +47,13 @@ export function Header({
             : 'gap-3 px-[18px] py-[10px]'
         }`}
       >
-        {/* Subtle glass top specular edge */}
+        {/* Borde superior especular sutil del efecto vidrio */}
         <span
           aria-hidden="true"
           className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-white/35 to-transparent"
         />
 
-        {/* Left: SENA Logo mark */}
+        {/* Izquierda: marca y logo SENA */}
         <button
           type="button"
           onClick={handleBrandClick}
@@ -62,7 +61,7 @@ export function Header({
           className="flex shrink-0 items-center gap-2.5 rounded-lg transition-opacity duration-150 hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00af00]/60 cursor-pointer"
         >
           <img
-            src={logoSena}
+            src="/logoSenaNaranja.png"
             alt="Logo SENA"
             className="h-[26px] w-auto object-contain sm:h-[28px]"
           />
@@ -73,7 +72,7 @@ export function Header({
           )}
         </button>
 
-        {/* Admin Panel Navigation & Logout (only when authenticated) */}
+        {/* Navegación del panel de administración y cierre de sesión  */}
         {user && (
           <>
             <nav

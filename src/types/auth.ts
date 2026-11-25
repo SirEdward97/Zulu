@@ -6,8 +6,6 @@ export type UserRole = 'Administrador' | 'Operador';
 
 export type AffiliationType = 'SENA' | 'Externo';
 
-export type MarkdownDocId = 'guia' | 'novedades' | 'terminos' | 'patterns';
-
 export interface UserProfile {
   name: string;
   email: string;
@@ -46,17 +44,9 @@ export interface SenaEvent {
   maxCompanions: number;
   includesHotel: boolean;
   includesBus: boolean;
-  descriptionMd: string;
+  description: string;
   operatorId: string;
   registrationOpen: boolean;
   checkpoints: EventCheckpoint[];
   createdAt: string;
-}
-
-export interface MarkdownDocument {
-  id: MarkdownDocId;
-  title: string;
-  filename: string;
-  summary: string;
-  content: string;
 }

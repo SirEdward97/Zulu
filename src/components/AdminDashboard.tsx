@@ -1,6 +1,4 @@
 import { useMemo, useRef, useState } from 'react';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
 import {
   ArrowRight,
   ArrowUpRight,
@@ -81,7 +79,7 @@ export function AdminDashboard({
 }: AdminDashboardProps) {
   const resumenHeroRef = useRef<HTMLElement>(null);
 
-  // Events tab state
+  // Estado de la pestaña de eventos
   const [searchQuery, setSearchQuery] = useState('');
   const [eventFilter, setEventFilter] = useState<EventFilter>('todos');
   const [expandedEventId, setExpandedEventId] = useState<string | null>(null);
@@ -89,7 +87,7 @@ export function AdminDashboard({
     Record<string, string>
   >({});
 
-  // Users tab state
+  // Estado de la pestaña de usuarios
   const [roleFilter, setRoleFilter] = useState<RoleFilter>('todos');
   const [userSearch, setUserSearch] = useState('');
   const [showAddUser, setShowAddUser] = useState(false);
@@ -245,7 +243,7 @@ export function AdminDashboard({
 
   return (
     <main className="mx-auto min-h-[calc(100vh-124px)] w-full max-w-[1320px] px-5 pb-20 sm:px-10">
-      {/* Shared Top Editorial Utility Metadata Rail */}
+      {/* Barra superior compartida de metadatos */}
       <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-y border-white/18 py-3">
         <span className="he-meta text-white">{sectionIndexLabel}</span>
         <span className="he-meta hidden text-white/90 md:inline">
@@ -257,10 +255,10 @@ export function AdminDashboard({
         </span>
       </div>
 
-      {/* ==================== TAB 1: RESUMEN ==================== */}
+      {/* ==================== PESTAÑA 1: RESUMEN ==================== */}
       {activeTab === 'resumen' && (
         <div className="animate-fade-up">
-          {/* 12-Column Asymmetric Editorial Hero (he.md Pattern 1) */}
+          {/* Encabezado asimétrico editorial de 12 columnas */}
           <section
             ref={resumenHeroRef}
             className="relative overflow-hidden py-10 sm:py-14"
@@ -320,12 +318,12 @@ export function AdminDashboard({
             </div>
           </section>
 
-          {/* Disciplined 3-Column Hairline Architectural Metrics Strip (NO generic boxes) */}
+          {/* Franja arquitectónica de métricas en 3 columnas */}
           <section
             aria-label="Indicadores generales"
             className="grid grid-cols-1 border-y border-white/18 md:grid-cols-3 md:divide-x md:divide-white/18"
           >
-            {/* Metric 01 */}
+            {/* Métrica 01 */}
             <div
               role="button"
               tabIndex={0}
@@ -362,7 +360,7 @@ export function AdminDashboard({
               </div>
             </div>
 
-            {/* Metric 02 */}
+            {/* Métrica 02 */}
             <div
               role="button"
               tabIndex={0}
@@ -390,7 +388,7 @@ export function AdminDashboard({
               </div>
             </div>
 
-            {/* Metric 03 */}
+            {/* Métrica 03 */}
             <div
               role="button"
               tabIndex={0}
@@ -419,7 +417,7 @@ export function AdminDashboard({
             </div>
           </section>
 
-          {/* Elevated Tonal Lower Editorial Surface (he.md Pattern 4) */}
+          {/* Superficie editorial tonal inferior */}
           <section className="mt-10 rounded-[22px] border border-white/22 bg-[#01282a]/54 p-6 shadow-[0_18px_48px_rgba(0,0,0,0.28)] backdrop-blur-xl sm:p-10">
             <div className="flex flex-col gap-3 border-b border-white/15 pb-6 sm:flex-row sm:items-end sm:justify-between">
               <div>
@@ -614,13 +612,11 @@ export function AdminDashboard({
 
                             <div>
                               <span className="he-meta mb-2 block text-white/85">
-                                DESCRIPCIÓN (.MD)
+                                DESCRIPCIÓN
                               </span>
-                              <div className="markdown-body text-[13.5px]">
-                                <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                                  {ev.descriptionMd || '_Sin descripción._'}
-                                </ReactMarkdown>
-                              </div>
+                              <p className="whitespace-pre-line text-[13.5px] leading-relaxed text-white/90">
+                                {ev.description || 'Sin descripción.'}
+                              </p>
                             </div>
                           </div>
                           <div className="lg:col-span-5 lg:border-l lg:border-white/15 lg:pl-6">
@@ -649,7 +645,7 @@ export function AdminDashboard({
               </div>
             )}
 
-            {/* Compact Editorial Roster & Operational Overview Footer Row */}
+            {/* Fila inferior compacta de equipo y estado operativo */}
             <div className="mt-8 grid grid-cols-1 gap-8 border-t border-white/15 pt-8 lg:grid-cols-12">
               <div className="lg:col-span-7">
                 <div className="mb-4 flex items-center justify-between">
@@ -714,10 +710,10 @@ export function AdminDashboard({
         </div>
       )}
 
-      {/* ==================== TAB 2: EVENTOS ==================== */}
+      {/* ==================== PESTAÑA 2: EVENTOS ==================== */}
       {activeTab === 'eventos' && (
         <div className="animate-fade-up">
-          {/* 12-Column Editorial Header */}
+          {/* Encabezado editorial de 12 columnas */}
           <section className="grid grid-cols-1 items-end gap-8 py-10 sm:py-12 lg:grid-cols-12">
             <div className="lg:col-span-7">
               <span className="he-meta mb-3 block text-white/90">
@@ -729,8 +725,8 @@ export function AdminDashboard({
             </div>
             <div className="flex flex-col gap-5 lg:col-span-5 lg:items-end lg:text-right">
               <p className="max-w-[400px] text-[14.5px] leading-relaxed text-white/90">
-                Filtra inscripciones, inspecciona la documentación Markdown y
-                agrega o retira checkpoints en vivo por cada evento.
+                Filtra inscripciones, consulta los detalles y agrega o retira
+                checkpoints en vivo por cada evento.
               </p>
               <button
                 type="button"
@@ -745,7 +741,7 @@ export function AdminDashboard({
             </div>
           </section>
 
-          {/* Hairline Filter + Search Bar */}
+          {/* Barra de filtros y búsqueda */}
           <div className="flex flex-col gap-4 border-y border-white/18 py-4 md:flex-row md:items-center md:justify-between">
             <div className="flex flex-wrap items-center gap-2">
               {(
@@ -785,7 +781,7 @@ export function AdminDashboard({
             </div>
           </div>
 
-          {/* Editorial Multi-Column Directory */}
+          {/* Directorio editorial en varias columnas */}
           {filteredEvents.length === 0 ? (
             <div className="mt-8 rounded-[20px] border border-white/22 bg-[#01282a]/52 px-6 py-16 text-center shadow-[0_18px_48px_rgba(0,0,0,0.28)] backdrop-blur-xl">
               <span className="he-meta text-white/85">
@@ -816,7 +812,7 @@ export function AdminDashboard({
             </div>
           ) : (
             <div className="mt-6 overflow-hidden rounded-[20px] border border-white/22 bg-[#01282a]/54 shadow-[0_18px_48px_rgba(0,0,0,0.28)] backdrop-blur-xl">
-              {/* Desktop column header */}
+              {/* Encabezado de columnas para escritorio */}
               <div className="hidden grid-cols-12 border-b border-white/15 px-6 py-3.5 md:grid">
                 <span className="he-meta col-span-1 text-white/85">#</span>
                 <span className="he-meta col-span-4 text-white/85">
@@ -938,7 +934,7 @@ export function AdminDashboard({
                         </div>
                       </div>
 
-                      {/* Expandable Architectural Detail + Live Checkpoint Editor */}
+                      {/* Detalle expandible y editor de checkpoints en vivo */}
                       {isExpanded && (
                         <div className="animate-fade-up mt-5 grid grid-cols-1 gap-6 border-t border-white/15 pt-5 lg:grid-cols-12">
                           <div className="space-y-4 lg:col-span-7">
@@ -989,13 +985,11 @@ export function AdminDashboard({
 
                             <div>
                               <span className="he-meta mb-2.5 block text-white/85">
-                                DESCRIPCIÓN EN MARKDOWN
+                                DESCRIPCIÓN
                               </span>
-                              <div className="markdown-body text-[13.5px]">
-                                <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                                  {ev.descriptionMd || '_Sin descripción._'}
-                                </ReactMarkdown>
-                              </div>
+                              <p className="whitespace-pre-line text-[13.5px] leading-relaxed text-white/90">
+                                {ev.description || 'Sin descripción.'}
+                              </p>
                             </div>
                           </div>
 
@@ -1070,10 +1064,10 @@ export function AdminDashboard({
         </div>
       )}
 
-      {/* ==================== TAB 3: USUARIOS ==================== */}
+      {/* ==================== PESTAÑA 3: USUARIOS ==================== */}
       {activeTab === 'usuarios' && (
         <div className="animate-fade-up">
-          {/* 12-Column Editorial Header */}
+          {/* Encabezado editorial de 12 columnas */}
           <section className="grid grid-cols-1 items-end gap-8 py-10 sm:py-12 lg:grid-cols-12">
             <div className="lg:col-span-7">
               <span className="he-meta mb-3 block text-white/90">
@@ -1104,7 +1098,7 @@ export function AdminDashboard({
             </div>
           </section>
 
-          {/* Inline Editorial Add-User Panel */}
+          {/* Panel en línea para crear usuario */}
           {showAddUser && (
             <form
               onSubmit={handleCreateUser}
@@ -1319,7 +1313,7 @@ export function AdminDashboard({
             </form>
           )}
 
-          {/* Hairline Role Filter + Search Bar */}
+          {/* Barra de filtros por rol y búsqueda */}
           <div className="flex flex-col gap-4 border-y border-white/18 py-4 md:flex-row md:items-center md:justify-between">
             <div className="flex flex-wrap items-center gap-2">
               {(
@@ -1362,7 +1356,7 @@ export function AdminDashboard({
             </div>
           </div>
 
-          {/* Editorial Multi-Column User Directory */}
+          {/* Directorio de usuarios en varias columnas */}
           <div className="mt-6 overflow-hidden rounded-[20px] border border-white/22 bg-[#01282a]/54 shadow-[0_18px_48px_rgba(0,0,0,0.28)] backdrop-blur-xl">
             <div className="hidden grid-cols-12 border-b border-white/15 px-6 py-3.5 md:grid">
               <span className="he-meta col-span-1 text-white/85">ID</span>

@@ -64,7 +64,7 @@ const POINTS_FRAGMENT_SHADER = /* glsl */ `
     float outerHalo = pow(smoothstep(0.5, 0.0, dist), 2.1);
     float innerCore = smoothstep(0.28, 0.04, dist);
 
-    // #A4CF63 luminous node glow over #014446 background
+    // Resplandor luminoso de nodos en #A4CF63 sobre fondo #014446
     vec3 nodeDim = vec3(0.38, 0.56, 0.24);
     vec3 nodeGlow = vec3(0.6431, 0.8118, 0.3882);
     vec3 nodePeak = vec3(0.84, 0.96, 0.64);
@@ -353,7 +353,7 @@ export function CloudPatternsBackground({
     document.addEventListener('visibilitychange', handleVisibilityChange);
     motionQuery.addEventListener('change', handleReducedMotionChange);
 
-    // Render initial static frame immediately, then run loop if allowed
+    // Renderizar el fotograma estático inicial de inmediato y luego iniciar el bucle si está permitido
     renderer.render(scene, camera);
     syncPlayback();
 
@@ -385,11 +385,11 @@ export function CloudPatternsBackground({
       aria-hidden="true"
       className="pointer-events-none fixed inset-0 z-0 h-screen w-screen overflow-hidden bg-[#014446]"
     >
-      {/* Distant GPU GLSL wave field with #A4CF63 illuminated nodes */}
+      {/* Campo de ondas GLSL en GPU con nodos iluminados en #A4CF63 */}
       <div ref={mountRef} className="h-full w-full" />
-      {/* Soft #A4CF63 Horizon Light rising from lower center */}
+      {/* Luz suave de horizonte en #A4CF63 desde el centro inferior */}
       <div className="km-horizon-glow absolute inset-0 opacity-75" />
-      {/* Soft top edge fade into #014446 */}
+      {/* Desvanecimiento suave del borde superior hacia #014446 */}
       <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-[#014446]/80 to-transparent" />
     </div>
   );

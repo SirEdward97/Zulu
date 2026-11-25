@@ -1,11 +1,7 @@
 import { useEffect, useState } from 'react';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
 import {
   Bus,
   Calendar,
-  Code2,
-  Eye,
   Hotel,
   MapPin,
   Plus,
@@ -47,8 +43,7 @@ export function CreateEventModal({
     users.find((u) => u.role === 'Operador')?.id ?? users[0]?.id ?? '';
 
   const [title, setTitle] = useState('');
-  const [descriptionMd, setDescriptionMd] = useState('');
-  const [mdTab, setMdTab] = useState<'write' | 'preview'>('write');
+  const [description, setDescription] = useState('');
   const [location, setLocation] = useState('');
   const [startDateTime, setStartDateTime] = useState('');
   const [endDateTime, setEndDateTime] = useState('');
@@ -171,7 +166,7 @@ export function CreateEventModal({
       maxCompanions: parsedCompanions,
       includesHotel,
       includesBus,
-      descriptionMd: descriptionMd.trim(),
+      description: description.trim(),
       operatorId: operatorId || defaultOperator,
       registrationOpen,
       checkpoints,
@@ -183,8 +178,7 @@ export function CreateEventModal({
 
     onCreate(newEvent);
     setTitle('');
-    setDescriptionMd('');
-    setMdTab('write');
+    setDescription('');
     setLocation('');
     setStartDateTime('');
     setEndDateTime('');
@@ -214,7 +208,7 @@ export function CreateEventModal({
       }}
     >
       <div className="animate-fade-up flex max-h-[92vh] w-full max-w-[680px] flex-col overflow-hidden rounded-[18px] border border-white/25 bg-[#01282a]/68 shadow-[0_24px_70px_rgba(0,0,0,0.42)] backdrop-blur-2xl">
-        {/* Modal Header */}
+        {/* Encabezado del modal */}
         <div className="flex shrink-0 items-center justify-between border-b border-white/15 px-6 py-4">
           <div>
             <span className="he-meta text-[#A4CF63]">
@@ -235,13 +229,13 @@ export function CreateEventModal({
           </button>
         </div>
 
-        {/* Form */}
+        {/* Formulario */}
         <form
           onSubmit={handleSubmit}
           noValidate
           className="flex min-h-0 flex-1 flex-col"
         >
-          {/* Scrollable Form Body */}
+          {/* Cuerpo desplazable del formulario */}
           <div className="flex-1 space-y-4 overflow-y-auto px-6 py-5">
             {error && (
               <div
@@ -269,56 +263,20 @@ export function CreateEventModal({
 
             {/* 2. Descripción (opcional) */}
             <div>
-              <div className="mb-1.5 flex items-center justify-between">
-                <label htmlFor="event-desc-md" className="he-meta text-white/95">
-                  Descripción (opcional)
-                </label>
-                <div className="inline-flex rounded-[8px] border border-white/22 bg-[#011d1f]/45 p-0.5 backdrop-blur-md">
-                  <button
-                    type="button"
-                    onClick={() => setMdTab('write')}
-                    className={`inline-flex items-center gap-1 rounded-[6px] px-2.5 py-0.5 font-mono text-[10.5px] uppercase cursor-pointer ${
-                      mdTab === 'write'
-                        ? 'bg-white/20 text-white'
-                        : 'text-white/75 hover:text-white'
-                    }`}
-                  >
-                    <Code2 className="h-3 w-3" />
-                    .md
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setMdTab('preview')}
-                    className={`inline-flex items-center gap-1 rounded-[6px] px-2.5 py-0.5 font-mono text-[10.5px] uppercase cursor-pointer ${
-                      mdTab === 'preview'
-                        ? 'bg-white/20 text-white'
-                        : 'text-white/75 hover:text-white'
-                    }`}
-                  >
-                    <Eye className="h-3 w-3" />
-                    Vista
-                  </button>
-                </div>
-              </div>
-
-              {mdTab === 'write' ? (
-                <textarea
-                  id="event-desc-md"
-                  rows={3}
-                  value={descriptionMd}
-                  onChange={(e) => setDescriptionMd(e.target.value)}
-                  placeholder="Agrega detalles, agenda o requisitos del evento..."
-                  className="w-full resize-y rounded-[10px] border border-white/22 bg-[#011d1f]/45 p-3.5 text-[13.5px] leading-relaxed text-white placeholder:text-white/55 backdrop-blur-md focus:border-[#A4CF63] focus:bg-[#011d1f]/65 focus:outline-none"
-                />
-              ) : (
-                <div className="min-h-[96px] rounded-[10px] border border-white/22 bg-[#011d1f]/45 p-3.5 backdrop-blur-md">
-                  <div className="markdown-body text-[13px]">
-                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                      {descriptionMd || '_Sin descripción._'}
-                    </ReactMarkdown>
-                  </div>
-                </div>
-              )}
+              <label
+                htmlFor="event-desc"
+                className="he-meta mb-1.5 block text-white/95"
+              >
+                Descripción (opcional)
+              </label>
+              <textarea
+                id="event-desc"
+                rows={3}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Agrega detalles, agenda o requisitos del evento..."
+                className="w-full resize-y rounded-[10px] border border-white/22 bg-[#011d1f]/45 p-3.5 text-[13.5px] leading-relaxed text-white placeholder:text-white/55 backdrop-blur-md focus:border-[#A4CF63] focus:bg-[#011d1f]/65 focus:outline-none"
+              />
             </div>
 
             {/* 3. Lugar */}
@@ -545,7 +503,7 @@ export function CreateEventModal({
               </label>
             </div>
 
-            {/* Operational section: Assigned Operator, Open Status & Checkpoints */}
+            {/* Sección operativa: Operador asignado, Estado de inscripciones y Checkpoints */}
             <div className="space-y-4 border-t border-white/15 pt-4">
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-[1fr_auto]">
                 <div>
@@ -656,7 +614,7 @@ export function CreateEventModal({
             </div>
           </div>
 
-          {/* Sticky Footer Actions */}
+          {/* Acciones fijas en el pie del modal */}
           <div className="flex shrink-0 items-center justify-end gap-2.5 border-t border-white/15 bg-[#012224]/60 px-6 py-4 backdrop-blur-xl">
             <button
               type="button"

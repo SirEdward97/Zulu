@@ -8,80 +8,44 @@ interface LetterS3DProps {
   paused?: boolean;
 }
 
-interface SideModelConfig {
+interface AttachedModelConfig {
   url: string;
   targetSize: number;
   position: [number, number, number];
   baseRotation: [number, number, number];
-  floatAmp: number;
-  floatSpeed: number;
-  spinY: number;
-  swayY: number;
-  phase: number;
-  parallax: number;
 }
 
-interface LoadedSideModel {
-  group: THREE.Group;
-  config: SideModelConfig;
-}
-
-const SIDE_MODELS: SideModelConfig[] = [
+const ATTACHED_MODELS: AttachedModelConfig[] = [
   {
     url: '/models/guitar.glb',
-    targetSize: 1.48,
-    position: [-2.95, 0.52, -0.35],
-    baseRotation: [0.1, 0.42, -0.34],
-    floatAmp: 0.13,
-    floatSpeed: 1.05,
-    spinY: 0,
-    swayY: 0.24,
-    phase: 0.2,
-    parallax: 0.34,
+    targetSize: 1.18,
+    position: [-1.26, -0.94, 0.16],
+    baseRotation: [0.08, 0.32, -0.48],
   },
   {
     url: '/models/soccer-ball.glb',
-    targetSize: 0.94,
-    position: [-2.18, -0.78, 0.22],
-    baseRotation: [0.22, 0.15, 0.1],
-    floatAmp: 0.11,
-    floatSpeed: 1.35,
-    spinY: 0.65,
-    swayY: 0,
-    phase: 1.7,
-    parallax: 0.42,
+    targetSize: 0.78,
+    position: [-0.46, -1.14, 0.28],
+    baseRotation: [0.18, 0.2, 0.08],
   },
   {
     url: '/models/puzzle.glb',
-    targetSize: 1.12,
-    position: [2.75, 0.6, -0.22],
-    baseRotation: [0.52, -0.38, 0.12],
-    floatAmp: 0.12,
-    floatSpeed: 1.18,
-    spinY: 0,
-    swayY: 0.28,
-    phase: 2.8,
-    parallax: 0.36,
+    targetSize: 0.88,
+    position: [0.46, -1.12, 0.28],
+    baseRotation: [0.45, -0.32, 0.1],
   },
   {
     url: '/models/gym-weights.glb',
-    targetSize: 1.28,
-    position: [2.35, -0.76, 0.14],
-    baseRotation: [0.28, -0.52, -0.1],
-    floatAmp: 0.1,
-    floatSpeed: 0.95,
-    spinY: 0,
-    swayY: 0.22,
-    phase: 4.1,
-    parallax: 0.38,
+    targetSize: 1.05,
+    position: [1.26, -0.98, 0.18],
+    baseRotation: [0.22, -0.42, 0.22],
   },
 ];
 
 /**
- * Interactive 3D Hero Stage:
- * - Center: Glossy SENA emerald Letter "S" (/models/letter-s.glb), draggable in 3D.
- * - Left & Right: Smaller Bienestar 3D objects from 3d/ (guitar, soccer ball, puzzle, gym weights)
- *   floating gently around the S with studio PBR reflections and smooth pointer parallax.
+ * Escenario 3D interactivo principal:
+ * - Emblema 3D unificado: logo SENA 3D (/models/sena-logo-3d.glb) con los 4 objetos de Bienestar
+ *   (guitarra, balón de fútbol, rompecabezas y pesas) fijados en su base como una sola pieza arrastrable.
  */
 export function LetterS3D({
   className = '',
@@ -125,7 +89,7 @@ export function LetterS3D({
 
     const scene = new THREE.Scene();
 
-    // Studio IBL environment so metallic/glossy PBR assets (weights, guitar, ball, S) reflect crisply
+    // Entorno IBL de estudio para que los modelos PBR metálicos y brillantes reflejen con nitidez
     const pmremGenerator = new THREE.PMREMGenerator(renderer);
     const roomEnv = new RoomEnvironment();
     const envTarget = pmremGenerator.fromScene(roomEnv, 0.04);
@@ -137,14 +101,14 @@ export function LetterS3D({
     const updateCameraFraming = (w: number, h: number) => {
       const aspect = w / Math.max(h, 1);
       camera.aspect = aspect;
-      // Keep center S and all 4 side objects comfortably inside frame on both desktop & narrow viewports
-      camera.position.set(0, 0.18, aspect < 1.8 ? 10.8 : 8.1);
-      camera.lookAt(0, 0, 0);
+      // Encuadrar cómodamente el logo SENA 3D unificado junto con los objetos de Bienestar en su base
+      camera.position.set(0, 0.05, aspect < 1.8 ? 8.6 : 7.2);
+      camera.lookAt(0, -0.05, 0);
       camera.updateProjectionMatrix();
     };
     updateCameraFraming(width, height);
 
-    // Controlled studio lighting for brushed metallic S + balanced side PBR models
+    // Iluminación controlada de estudio para el logo SENA 3D y los modelos PBR adjuntos
     const ambient = new THREE.AmbientLight(0xffffff, 0.35);
     scene.add(ambient);
 
@@ -164,52 +128,36 @@ export function LetterS3D({
     sPivot.position.set(0, 0, 0.25);
     scene.add(sPivot);
 
-    const sideRoot = new THREE.Group();
-    scene.add(sideRoot);
+    // Fijar los 4 objetos de Bienestar directamente en sPivot para que permanezcan unidos al logo como una sola pieza
+    const attachedRoot = new THREE.Group();
+    sPivot.add(attachedRoot);
 
     const loader = new GLTFLoader();
     let isDisposed = false;
 
-    const loadedSideModels: LoadedSideModel[] = [];
-    const disposableGeometries: THREE.BufferGeometry[] = [];
-    const disposableMaterials: THREE.Material[] = [];
-
-    // 1. Load Hero Center Letter "S"
-    loader.load('/models/letter-s.glb', (gltf) => {
+    // 1. Cargar el logo SENA 3D central
+    loader.load('/models/sena-logo-3d.glb', (gltf) => {
       if (isDisposed) return;
 
       const model = gltf.scene;
       model.updateMatrixWorld(true);
 
-      // Satin brushed anodized metallic SENA green (no harsh glow or glossy plastic shine)
-      const metallicSenaMat = new THREE.MeshStandardMaterial({
-        color: new THREE.Color('#137a2d'),
-        emissive: new THREE.Color('#000000'),
-        emissiveIntensity: 0,
-        metalness: 0.92,
-        roughness: 0.32,
-        envMapIntensity: 1.05,
-        side: THREE.DoubleSide,
-      });
-      disposableMaterials.push(metallicSenaMat);
-
-      const edgeMat = new THREE.LineBasicMaterial({
-        color: 0xd1d5db,
-        transparent: true,
-        opacity: 0.14,
-      });
-      disposableMaterials.push(edgeMat);
-
       model.traverse((child) => {
         if (child instanceof THREE.Mesh) {
-          if (child.geometry) {
-            child.geometry.computeVertexNormals();
-            const edgesGeo = new THREE.EdgesGeometry(child.geometry, 24);
-            disposableGeometries.push(edgesGeo);
-            const wire = new THREE.LineSegments(edgesGeo, edgeMat);
-            child.add(wire);
-          }
-          child.material = metallicSenaMat;
+          const mats = Array.isArray(child.material)
+            ? child.material
+            : [child.material];
+          mats.forEach((mat) => {
+            if (mat instanceof THREE.MeshStandardMaterial) {
+              mat.color.set('#00af00');
+              mat.emissive.set('#00af00');
+              mat.emissiveIntensity = 0.08;
+              mat.metalness = 0.22;
+              mat.roughness = 0.28;
+              mat.envMapIntensity = 0.95;
+              mat.needsUpdate = true;
+            }
+          });
         }
       });
 
@@ -217,19 +165,20 @@ export function LetterS3D({
       const size = box.getSize(new THREE.Vector3());
       const center = box.getCenter(new THREE.Vector3());
       const maxDim = Math.max(size.x, size.y, size.z) || 1;
-      const scale = 2.85 / maxDim;
+      const scale = 2.65 / maxDim;
 
       const normalized = new THREE.Group();
       model.position.sub(center);
       normalized.add(model);
-      normalized.scale.set(scale, scale, scale * 0.56);
+      normalized.scale.setScalar(scale);
+      normalized.position.y = 0.22;
 
       sPivot.add(normalized);
       renderer.render(scene, camera);
     });
 
-    // 2. Load the 4 smaller 3D Bienestar objects flanking the Letter "S"
-    SIDE_MODELS.forEach((cfg) => {
+    // 2. Cargar los 4 objetos de Bienestar fijados en la base inferior del logo SENA 3D
+    ATTACHED_MODELS.forEach((cfg) => {
       loader.load(cfg.url, (gltf) => {
         if (isDisposed) return;
 
@@ -252,13 +201,12 @@ export function LetterS3D({
         wrapper.position.set(...cfg.position);
         wrapper.rotation.set(...cfg.baseRotation);
 
-        sideRoot.add(wrapper);
-        loadedSideModels.push({ group: wrapper, config: cfg });
+        attachedRoot.add(wrapper);
         renderer.render(scene, camera);
       });
     });
 
-    // Interactive drag-to-rotate on the stage + subtle parallax
+    // Arrastre interactivo para rotar el escenario y paralaje sutil con el cursor
     let dragging = false;
     let lastX = 0;
     let lastY = 0;
@@ -290,7 +238,7 @@ export function LetterS3D({
         try {
           container?.releasePointerCapture(e.pointerId);
         } catch {
-          // ignore
+          // ignorar si ya se liberó la captura del puntero
         }
       }
     }
@@ -349,38 +297,12 @@ export function LetterS3D({
         dragRotX *= 0.96;
       }
 
-      // Hero S animation
+      // Animación del emblema 3D unificado (logo SENA y objetos fijados en su base)
       const idleYaw = Math.sin(elapsed * 0.7) * 0.3;
       const idlePitch = Math.cos(elapsed * 0.52) * 0.07;
       sPivot.rotation.y = idleYaw + pointer.x * 0.22 + dragRotY;
       sPivot.rotation.x = idlePitch - pointer.y * 0.14 + dragRotX;
-      sPivot.position.y = Math.sin(elapsed * 1.1) * 0.11;
-
-      // Side 3D objects gentle floating, subtle spin/sway, and depth parallax
-      for (const item of loadedSideModels) {
-        const c = item.config;
-        const bob = Math.sin(elapsed * c.floatSpeed + c.phase) * c.floatAmp;
-
-        item.group.position.x = c.position[0] + pointer.x * c.parallax;
-        item.group.position.y =
-          c.position[1] + bob + pointer.y * (c.parallax * 0.55);
-        item.group.position.z = c.position[2];
-
-        if (c.spinY !== 0) {
-          item.group.rotation.y += c.spinY * dt;
-          item.group.rotation.x =
-            c.baseRotation[0] + Math.sin(elapsed * 0.6 + c.phase) * 0.18;
-        } else {
-          item.group.rotation.y =
-            c.baseRotation[1] +
-            Math.sin(elapsed * 0.65 + c.phase) * c.swayY +
-            pointer.x * 0.16;
-          item.group.rotation.x =
-            c.baseRotation[0] +
-            Math.cos(elapsed * 0.55 + c.phase) * 0.08 -
-            pointer.y * 0.1;
-        }
-      }
+      sPivot.position.y = Math.sin(elapsed * 1.1) * 0.1;
 
       renderer.render(scene, camera);
       rafId = window.requestAnimationFrame(animate);
@@ -467,9 +389,6 @@ export function LetterS3D({
       };
 
       disposeSubtree(sPivot);
-      disposeSubtree(sideRoot);
-      disposableGeometries.forEach((g) => g.dispose());
-      disposableMaterials.forEach((m) => m.dispose());
       envTarget.dispose();
 
       renderer.dispose();
@@ -483,14 +402,14 @@ export function LetterS3D({
     <div
       className={`relative mx-auto flex h-[240px] w-full max-w-[760px] select-none items-center justify-center sm:h-[290px] ${className}`}
     >
-      {/* Interactive WebGL 3D Composition: Center Letter S + 4 smaller flanking 3D models */}
+      {/* Composición 3D interactiva en WebGL: logo SENA 3D central con 4 modelos de Bienestar fijados en la base */}
       <div
         ref={containerRef}
-        title="Arrastra para rotar la letra S en 3D"
+        title="Arrastra para rotar el logo SENA en 3D"
         className="h-full w-full cursor-grab active:cursor-grabbing"
       />
 
-      {/* Subtle km.md wireframe corner selection brackets framing the center S */}
+      {/* Esquinas decorativas tipo marco vectorial alrededor del emblema 3D central */}
       <svg
         aria-hidden="true"
         viewBox="0 0 760 290"

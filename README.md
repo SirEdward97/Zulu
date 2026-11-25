@@ -1,6 +1,6 @@
 # Eventos SENA · Bienestar al Aprendiz
 
-Aplicación web frontend en **React + TypeScript + Tailwind CSS + Three.js + Markdown** para la gestión administrativa de eventos de **Bienestar al Aprendiz (SENA)**. Incluye pantalla de acceso con composición 3D interactiva, fondo generativo WebGL en ondas con nodos luminosos, panel de administración con métricas en tiempo real, formularios completos de **Crear Evento** y **Crear Usuario**, gestión de checkpoints y visor integrado de documentación Markdown.
+Aplicación web frontend de la gestión administrativa de eventos de **Bienestar al Aprendiz (SENA)**. Incluye pantalla de acceso vertical con composición 3D interactiva del logo SENA, fondo generativo WebGL en ondas con nodos luminosos, panel de administración con métricas en tiempo real, formularios completos de **Crear Evento** y **Crear Usuario**, y gestión de checkpoints.
 
 ---
 
@@ -14,22 +14,20 @@ Aplicación web frontend en **React + TypeScript + Tailwind CSS + Three.js + Mar
 6. [Modelos de datos](#modelos-de-datos)
 7. [Instalación y ejecución](#instalación-y-ejecución)
 8. [Acceso de prueba](#acceso-de-prueba)
-9. [Documentación integrada](#documentación-integrada)
-10. [Notas de arquitectura y alcance](#notas-de-arquitectura-y-alcance)
+9. [Notas de arquitectura y alcance](#notas-de-arquitectura-y-alcance)
 
 ---
 
 ## Características principales
 
-- **Autenticación y cambio de clave**: inicio de sesión con validación en vivo, opción para mostrar/ocultar contraseña y flujo de actualización de clave.
-- **Escenario 3D interactivo**: letra **S** metálica central arrastrable en 3D acompañada por cuatro modelos de Bienestar al Aprendiz (guitarra, balón de fútbol, rompecabezas y pesas) con iluminación PBR y parallax al cursor.
-- **Fondo generativo WebGL (GLSL)**: campo de ondas con **9,424 nodos luminosos** (`124 × 76`) y **26 cintas de contorno** reactivas al puntero, con pausa automática al abrir modales o cambiar de pestaña y soporte para `prefers-reduced-motion`.
+- **Autenticación y cambio de clave**: tarjeta vertical en vidrio esmerilado con inicio de sesión, validación en vivo, opción para mostrar/ocultar contraseña y flujo de actualización de clave.
+- **Escenario 3D interactivo**: logo **SENA 3D** (`#00af00`) acompañado por cuatro modelos de Bienestar al Aprendiz (`guitar`, `soccer-ball`, `puzzle` y `gym-weights`) fijados en su base inferior, formando una sola pieza 3D arrastrable con iluminación PBR de estudio.
+- **Fondo generativo WebGL (GLSL)**: campo de ondas con nodos luminosos y cintas de contorno reactivas al puntero, con pausa automática al abrir modales o cambiar de pestaña y soporte para `prefers-reduced-motion`.
 - **Panel de Administración (3 pestañas)**:
   - **Resumen**: indicadores en vivo, actividad reciente inspeccionable, equipo operativo y estado general de la plataforma.
   - **Eventos**: filtros por estado (`Todos`, `Abiertos`, `Cerrados`), búsqueda por evento/sede/operador/checkpoint, apertura/cierre rápido de inscripciones y edición de checkpoints en vivo.
   - **Usuarios**: creación de cuentas con rol, documento, correo, contraseña asignada, tipo de afiliación y centro de formación, más filtros, búsqueda, cambio de rol y estado activo/inactivo.
-- **Creación de eventos completa**: horarios de inicio/fin del evento, ventana de apertura/cierre de inscripciones, cupo máximo, acompañantes configurables (hasta 10 o inscripción individual), servicios incluidos (`Hotel`, `Bus`), operador asignado, checkpoints y descripción en **Markdown (GFM)** con vista previa.
-- **Visor de documentación integrado**: cajón lateral (`MarkdownDrawer`) con pestañas navegables, vista renderizada / código `.md` y copia rápida al portapapeles.
+- **Creación de eventos completa**: horarios de inicio/fin del evento, ventana de apertura/cierre de inscripciones, cupo máximo, acompañantes configurables (hasta 10 o inscripción individual), servicios incluidos (`Hotel`, `Bus`), operador asignado, checkpoints y descripción opcional.
 
 ---
 
@@ -38,10 +36,11 @@ Aplicación web frontend en **React + TypeScript + Tailwind CSS + Three.js + Mar
 | Elemento | Valor / Estilo |
 | :--- | :--- |
 | **Fondo principal** | `#014446` (petróleo oscuro) |
+| **Verde institucional SENA** | `#00af00` (logo 3D y botón principal) |
 | **Iluminación de nodos y acentos** | `#A4CF63` (verde lima luminoso) |
 | **Formularios y contenedores** | Vidrio esmerilado translúcido (`bg-[#01282a]/52–68`, `backdrop-blur-xl/2xl`, bordes `border-white/22–25`) |
 | **Campos de entrada** | Translúcidos (`bg-[#011d1f]/45`, foco en `#A4CF63`, placeholders blancos legibles) |
-| **Botones** | Translúcidos con borde degradado luminoso (`he-cta` / `he-cta-neutral`) y sombra suave para mantener contraste sobre `#014446` |
+| **Botones** | Translúcidos con borde degradado luminoso (`he-cta` / `he-cta-neutral`) y sombra suave sobre `#014446` |
 | **Tipografía** | `Inter` (interfaz) y `JetBrains Mono` (etiquetas técnicas y metadatos) en blanco de alto contraste |
 
 ---
@@ -54,7 +53,6 @@ Aplicación web frontend en **React + TypeScript + Tailwind CSS + Three.js + Mar
 - **Tailwind CSS** `^4.1.13` (`@tailwindcss/vite`)
 - **Three.js** `^0.187.0` (`@types/three`)
 - **Lucide React** `^0.542.0`
-- **React Markdown** `^10.1.0` + **remark-gfm** `^4.0.1`
 
 ---
 
@@ -65,9 +63,9 @@ Aplicación web frontend en **React + TypeScript + Tailwind CSS + Three.js + Mar
 ├── package.json                         # Dependencias y scripts npm
 ├── vite.config.ts                       # Configuración de Vite + React + Tailwind
 ├── public/
-│   ├── logoSenaNaranja.png              # Favicon e ícono institucional
+│   ├── logoSenaNaranja.png              # Favicon y logotipo institucional SENA
 │   └── models/                          # Modelos 3D (.glb) servidos en tiempo de ejecución
-│       ├── letter-s.glb
+│       ├── sena-logo-3d.glb
 │       ├── guitar.glb
 │       ├── soccer-ball.glb
 │       ├── puzzle.glb
@@ -75,25 +73,19 @@ Aplicación web frontend en **React + TypeScript + Tailwind CSS + Three.js + Mar
 └── src/
     ├── main.tsx                         # Punto de entrada de React
     ├── App.tsx                          # Estado global (sesión, eventos, usuarios, modales)
-    ├── index.css                        # Variables CSS, botones translúcidos (.he-cta), estilos Markdown
+    ├── index.css                        # Variables CSS, botones translúcidos (.he-cta) y animaciones
+    ├── vite-env.d.ts                    # Tipos de entorno Vite
     ├── types/
     │   └── auth.ts                      # Interfaces TypeScript (SenaEvent, AdminUser, UserProfile, etc.)
-    ├── components/
-    │   ├── Header.tsx                   # Barra flotante de navegación y cierre de sesión
-    │   ├── LoginCard.tsx                # Login y cambio de contraseña + escenario 3D
-    │   ├── LetterS3D.tsx                # Composición Three.js con letra S y objetos de Bienestar
-    │   ├── CloudPatternsBackground.tsx  # Campo WebGL de ondas con nodos iluminados en #A4CF63
-    │   ├── AmbientSectionParticles.tsx  # Partículas 2D Canvas acotadas con zona tranquila (quietZone)
-    │   ├── AdminDashboard.tsx           # Panel completo: Resumen, Eventos y Usuarios (+ Crear Usuario)
-    │   ├── CreateEventModal.tsx         # Modal Crear Evento con validaciones y vista previa Markdown
-    │   ├── MarkdownDrawer.tsx           # Cajón lateral de documentación Markdown (Vista / .md)
-    │   └── FooterStrip.tsx              # Pie de página con acceso a Guía y Privacidad
-    └── content/
-        ├── index.ts                     # Registro de documentos Markdown
-        ├── guia-acceso.md               # Guía de ingreso y operación del panel
-        ├── patterns-three.md            # Documentación técnica del motor visual 3D/GLSL
-        ├── novedades.md                 # Registro de funcionalidades de la versión actual
-        └── terminos.md                  # Pautas de uso y tratamiento de datos
+    └── components/
+        ├── Header.tsx                   # Barra flotante de navegación y cierre de sesión
+        ├── LoginCard.tsx                # Login vertical y cambio de contraseña + escenario 3D
+        ├── LetterS3D.tsx                # Composición Three.js con logo SENA 3D y objetos de Bienestar fijados
+        ├── CloudPatternsBackground.tsx  # Campo WebGL de ondas con nodos iluminados en #A4CF63
+        ├── AmbientSectionParticles.tsx  # Partículas 2D Canvas acotadas con zona tranquila (quietZone)
+        ├── AdminDashboard.tsx           # Panel completo: Resumen, Eventos y Usuarios (+ Crear Usuario)
+        ├── CreateEventModal.tsx         # Modal Crear Evento con validaciones y checkpoints
+        └── FooterStrip.tsx              # Pie de página institucional minimalista
 ```
 
 ---
@@ -101,6 +93,7 @@ Aplicación web frontend en **React + TypeScript + Tailwind CSS + Three.js + Mar
 ## Vistas y funcionalidades
 
 ### 1. Pantalla de ingreso (`LoginCard.tsx`)
+- **Escenario 3D superior**: logo SENA 3D (`#00af00`) con guitarra, balón de fútbol, rompecabezas y pesas integrados en la base inferior, interactivo mediante arrastre.
 - **Iniciar sesión**:
   - `Correo electrónico`: validación de formato en tiempo real.
   - `Contraseña`: mínimo 6 caracteres, con botón para mostrar/ocultar.
@@ -111,7 +104,7 @@ Aplicación web frontend en **React + TypeScript + Tailwind CSS + Three.js + Mar
 - **01 / Resumen**:
   - Encabezado con bienvenida personalizada, botones `Crear evento` y `Ver todos`.
   - Métricas interactivas: total de eventos y barra de inscripciones abiertas, total de usuarios (operadores/administradores/activos) y total/promedio de checkpoints.
-  - Listado de últimos 5 eventos con despliegue (`INSPECCIONAR`) de fechas, cupo, acompañantes, servicios (`Hotel`, `Bus`), descripción Markdown y checkpoints.
+  - Listado de últimos 5 eventos con despliegue (`INSPECCIONAR`) de fechas, cupo, acompañantes, servicios (`Hotel`, `Bus`), descripción y checkpoints.
 - **02 / Eventos**:
   - Filtros (`Todos`, `Abiertos`, `Cerrados`) y buscador por título, sede, operador o checkpoint.
   - Cambio directo entre `Abierto` / `Cerrado`, eliminación de evento y panel expandible para añadir o quitar checkpoints en vivo.
@@ -123,13 +116,13 @@ Aplicación web frontend en **React + TypeScript + Tailwind CSS + Three.js + Mar
     4. **Correo**: obligatorio, formato válido y único (ej. `correo@sena.gov.co`).
     5. **Contraseña (la asigna el Administrador)**: obligatoria (mínimo 8 caracteres), con control para mostrar/ocultar.
     6. **Tipo de afiliación**: `SENA` o `Externo`.
-    7. **Centro de formación**: opcional para `Operador` (personal SENA o externo); requerido para `Administrador` con afiliación `SENA`.
+    7. **Centro de formación**: opcional para `Operador`; requerido para `Administrador` con afiliación `SENA`.
   - Directorio con filtros por rol, búsqueda por nombre/documento/correo/afiliación/centro, cambio de rol (protegiendo siempre al último administrador), activación/desactivación y eliminación.
 
 ### 3. Modal `Crear Evento` (`CreateEventModal.tsx`)
 Campos implementados y validados:
 1. **Nombre del evento**: obligatorio (mínimo 3 caracteres, ej. `Ej. Día de Integración`).
-2. **Descripción (opcional)**: editor de texto/Markdown con pestañas `.md` y `Vista`.
+2. **Descripción (opcional)**: campo de texto libre para detalles, agenda o requisitos.
 3. **Lugar**: obligatorio (mínimo 2 caracteres, ej. `Ej. Centro Agropecuario de Caldas`).
 4. **Inicio del evento** y **Fin del evento**: selectores `datetime-local` con validación cronológica (`fin >= inicio`).
 5. **Inscripciones abren** e **Inscripciones cierran**: selectores `datetime-local` con validación cronológica (`cierre >= apertura`).
@@ -175,7 +168,7 @@ export interface SenaEvent {
   maxCompanions: number;
   includesHotel: boolean;
   includesBus: boolean;
-  descriptionMd: string;
+  description: string;
   operatorId: string;
   registrationOpen: boolean;
   checkpoints: EventCheckpoint[];
@@ -220,19 +213,8 @@ Usuarios precargados inicialmente en el panel:
 
 ---
 
-## Documentación integrada
-
-La aplicación incluye un visor Markdown accesible desde el pie de página (`GUÍA .MD` y `PRIVACIDAD`) conectado a los archivos de [`src/content/`](src/content/):
-
-- [`guia-acceso.md`](src/content/guia-acceso.md): guía paso a paso de ingreso, creación de eventos y administración de usuarios.
-- [`patterns-three.md`](src/content/patterns-three.md): descripción técnica del fondo WebGL, nodos `#A4CF63`, partículas y escena 3D.
-- [`novedades.md`](src/content/novedades.md): resumen de funcionalidades e hitos de la interfaz actual.
-- [`terminos.md`](src/content/terminos.md): lineamientos de seguridad, privacidad y soporte institucional.
-
----
-
 ## Notas de arquitectura y alcance
 
-- **Estado en cliente**: actualmente la sesión, los eventos y las cuentas se administran en memoria con estado local de React (`App.tsx`). Al recargar la página se restauran los valores iniciales.
+- **Estado en cliente**: la sesión, los eventos y las cuentas se administran en memoria con estado local de React (`App.tsx`). Al recargar la página se restauran los valores iniciales.
 - **Preparado para integración API**: los tipos `SenaEvent` y `AdminUser` y las validaciones de ambos formularios están estructurados para conectarse directamente a endpoints REST de backend (`/admin/eventos/nuevo`, `/admin/cuentas/nuevo`, autenticación, etc.).
 - **Rendimiento y accesibilidad**: las animaciones WebGL y Canvas se pausan automáticamente cuando un modal está abierto, cuando la pestaña pierde foco o cuando el sistema operativo activa `prefers-reduced-motion`.

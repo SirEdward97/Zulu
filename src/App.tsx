@@ -5,12 +5,10 @@ import { CreateEventModal } from './components/CreateEventModal';
 import { FooterStrip } from './components/FooterStrip';
 import { Header } from './components/Header';
 import { LoginCard } from './components/LoginCard';
-import { MarkdownDrawer } from './components/MarkdownDrawer';
 import type {
   AdminTab,
   AdminUser,
   AuthMode,
-  MarkdownDocId,
   SenaEvent,
   UserProfile,
 } from './types/auth';
@@ -45,7 +43,6 @@ export function App() {
   const [events, setEvents] = useState<SenaEvent[]>([]);
   const [adminUsers, setAdminUsers] = useState<AdminUser[]>(INITIAL_USERS);
   const [createEventOpen, setCreateEventOpen] = useState<boolean>(false);
-  const [activeDocId, setActiveDocId] = useState<MarkdownDocId | null>(null);
   const [focusSignal, setFocusSignal] = useState<number>(0);
 
   const handleLogout = useCallback(() => {
@@ -139,7 +136,7 @@ export function App() {
     setAdminUsers((prev) => prev.filter((u) => u.id !== userId));
   }, []);
 
-  const isModalActive = createEventOpen || activeDocId !== null;
+  const isModalActive = createEventOpen;
 
   return (
     <div className="relative flex min-h-screen flex-col text-white">
@@ -187,7 +184,7 @@ export function App() {
           )}
         </div>
 
-        <FooterStrip onOpenDoc={setActiveDocId} />
+        <FooterStrip />
       </div>
 
       <CreateEventModal
@@ -195,12 +192,6 @@ export function App() {
         users={adminUsers}
         onClose={() => setCreateEventOpen(false)}
         onCreate={handleCreateEvent}
-      />
-
-      <MarkdownDrawer
-        activeDocId={activeDocId}
-        onSelectDoc={setActiveDocId}
-        onClose={() => setActiveDocId(null)}
       />
     </div>
   );

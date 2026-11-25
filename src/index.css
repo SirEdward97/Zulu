@@ -34,7 +34,7 @@
   }
 }
 
-/* Editorial metallic display finish */
+/* Acabado metálico editorial para títulos */
 .km-metallic {
   background-image: linear-gradient(180deg, #ffffff 0%, #edf6f6 100%);
   -webkit-background-clip: text;
@@ -42,7 +42,7 @@
   -webkit-text-fill-color: transparent;
 }
 
-/* Subtle luminous #A4CF63 horizon glow */
+/* Resplandor sutil de horizonte en #A4CF63 */
 .km-horizon-glow {
   background-image: radial-gradient(
     260% 100% at 50% 100%,
@@ -51,7 +51,7 @@
   );
 }
 
-/* he.md 1px gradient-outline minimal architectural CTA wrapper */
+/* Contenedor de botón principal minimalista con borde degradado de 1px */
 .he-cta {
   position: relative;
   display: inline-flex;
@@ -105,7 +105,7 @@
   background-color: rgba(164, 207, 99, 0.22);
 }
 
-/* Neutral 1px outline secondary CTA */
+/* Botón secundario neutro con borde de 1px */
 .he-cta-neutral {
   position: relative;
   display: inline-flex;
@@ -152,7 +152,7 @@
   color: #ffffff;
 }
 
-/* Tiny editorial uppercase utility label */
+/* Etiqueta utilitaria editorial en mayúsculas */
 .he-meta {
   font-family: 'JetBrains Mono', ui-monospace, monospace;
   font-size: 10.5px;
@@ -162,7 +162,7 @@
   color: rgba(255, 255, 255, 0.82);
 }
 
-/* Controlled masked text reveal (he.md structural motion) */
+/* Aparición controlada con recorte de texto */
 @keyframes heMaskReveal {
   from {
     opacity: 0;
@@ -193,139 +193,4 @@
 
 .animate-fade-up {
   animation: fadeSlideUp 320ms cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-/* Editorial Markdown Prose Styling */
-.markdown-body {
-  font-size: 0.92rem;
-  line-height: 1.7;
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.9);
-}
-
-.markdown-body h1 {
-  font-size: 1.55rem;
-  font-weight: 600;
-  letter-spacing: -0.025em;
-  color: #ffffff;
-  margin: 0 0 0.85rem;
-  line-height: 1.15;
-}
-
-.markdown-body h2 {
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: #ffffff;
-  margin: 1.5rem 0 0.65rem;
-  padding-bottom: 0.35rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-.markdown-body h3 {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: #ffffff;
-  margin: 1.15rem 0 0.45rem;
-}
-
-.markdown-body p {
-  margin: 0.65rem 0;
-}
-
-.markdown-body ul,
-.markdown-body ol {
-  margin: 0.7rem 0;
-  padding-left: 1.35rem;
-}
-
-.markdown-body ul {
-  list-style-type: disc;
-}
-
-.markdown-body ol {
-  list-style-type: decimal;
-}
-
-.markdown-body li {
-  margin: 0.3rem 0;
-}
-
-.markdown-body li input[type='checkbox'] {
-  accent-color: #00af00;
-  margin-right: 0.45rem;
-  transform: translateY(1px);
-}
-
-.markdown-body strong {
-  font-weight: 600;
-  color: #ffffff;
-}
-
-.markdown-body code {
-  font-size: 0.82rem;
-  background-color: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
-  padding: 0.15rem 0.42rem;
-  border-radius: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-}
-
-.markdown-body pre {
-  background-color: rgba(1, 28, 30, 0.58);
-  color: #ffffff;
-  padding: 1rem 1.15rem;
-  border-radius: 12px;
-  overflow-x: auto;
-  margin: 1rem 0;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-}
-
-.markdown-body pre code {
-  background: transparent;
-  border: none;
-  padding: 0;
-  color: inherit;
-  font-size: 0.82rem;
-}
-
-.markdown-body blockquote {
-  margin: 1rem 0;
-  padding: 0.75rem 1rem;
-  border-left: 2px solid #a4cf63;
-  background-color: rgba(255, 255, 255, 0.06);
-  border-radius: 0 8px 8px 0;
-  color: #ffffff;
-}
-
-.markdown-body table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 1rem 0;
-  font-size: 0.85rem;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.markdown-body th,
-.markdown-body td {
-  text-align: left;
-  padding: 0.6rem 0.85rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-}
-
-.markdown-body th {
-  background-color: rgba(255, 255, 255, 0.08);
-  font-weight: 600;
-  color: #ffffff;
-}
-
-.markdown-body tr:last-child td {
-  border-bottom: none;
-}
-
-.markdown-body a {
-  color: #a4cf63;
-  text-decoration: underline;
-  text-underline-offset: 3px;
 }

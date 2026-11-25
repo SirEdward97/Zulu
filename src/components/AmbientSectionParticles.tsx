@@ -17,7 +17,7 @@ export interface AmbientParticlesConfig {
 }
 
 export interface QuietZoneRect {
-  /** Normalized 0..1 coordinates relative to the bounded section */
+  /** Coordenadas normalizadas 0..1 relativas a la sección acotada */
   x: number;
   y: number;
   width: number;
@@ -25,12 +25,12 @@ export interface QuietZoneRect {
 }
 
 interface AmbientSectionParticlesProps {
-  /** Bounded section element that owns pointer and intersection observation */
+  /** Elemento de sección acotado que gestiona la observación de puntero e intersección */
   sectionRef: React.RefObject<HTMLElement | null>;
   config?: Partial<AmbientParticlesConfig>;
-  /** Pauses decorative motion while a modal or critical task is active */
+  /** Pausa el movimiento decorativo mientras hay un modal o tarea crítica activa */
   paused?: boolean;
-  /** Lower-density calm zone behind long text or form controls */
+  /** Zona tranquila de menor densidad detrás de textos largos o controles de formulario */
   quietZone?: QuietZoneRect;
   className?: string;
 }
@@ -73,7 +73,7 @@ const PALETTE = ['#A4CF63', '#A4CF63', '#bce085', '#87b849', '#d7efa9'];
 const SHAPES: ParticleShape[] = ['dot', 'diamond', 'sliver', 'ring'];
 const REFERENCE_AREA = 820 * 760;
 
-/** Deterministic PRNG (Mulberry32) so static & reduced-motion layouts are consistent */
+/** Generador pseudoaleatorio determinista (Mulberry32) para que las vistas estáticas y con movimiento reducido sean consistentes */
 function createSeededRandom(seed: number): () => number {
   let state = seed >>> 0;
   return () => {
@@ -88,7 +88,7 @@ function randRange(rand: () => number, min: number, max: number): number {
   return min + rand() * (max - min);
 }
 
-/** Scales particle count from actual container area + mobile / low-power hardware budget */
+/** Ajusta la cantidad de partículas según el área real del contenedor y el rendimiento del dispositivo */
 function computeScaledCount(
   baseCount: number,
   width: number,
@@ -109,13 +109,13 @@ function computeScaledCount(
 }
 
 /**
- * Bounded 2D Canvas ambient particle layer conforming to gh.md:
- * - Bounded inside a positioned section with overflow clipping.
- * - Area-scaled density, gravity, wind, phase sway, rotation, gentle pointer disturbance.
- * - Supports recycle, exit, settle, and static completion modes.
- * - Quiet zone attenuation behind form controls and long copy.
- * - Stops invisible work via IntersectionObserver, document.hidden, and modal pause.
- * - Deterministic static scatter under prefers-reduced-motion: reduce.
+ * Capa de partículas ambientales en Canvas 2D acotada:
+ * - Contenida dentro de una sección posicionada con recorte de desbordamiento.
+ * - Densidad escalada al área, gravedad, viento, balanceo por fase, rotación y perturbación suave con el puntero.
+ * - Soporta modos de finalización: recycle, exit, settle y static.
+ * - Atenuación en zona tranquila detrás de formularios y textos largos.
+ * - Detiene el trabajo fuera de pantalla mediante IntersectionObserver, document.hidden y pausa por modales.
+ * - Distribución estática determinista cuando prefers-reduced-motion: reduce está activo.
  */
 export function AmbientSectionParticles({
   sectionRef,
@@ -132,7 +132,7 @@ export function AmbientSectionParticles({
     ...config,
   };
 
-  // Keep latest values accessible inside the single rAF loop without restarting it
+  // Mantener los valores más recientes accesibles dentro del único bucle rAF sin reiniciarlo
   const configRef = useRef(mergedConfig);
   configRef.current = mergedConfig;
 
@@ -228,7 +228,7 @@ export function AmbientSectionParticles({
 
       ctx?.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      // Re-scale particle population smoothly to the new container area
+      // Reescalar suavemente la población de partículas al nuevo área del contenedor
       const cfg = configRef.current;
       const staticMode = prefersReduced || cfg.mode === 'static';
       const desired = computeScaledCount(cfg.count, width, height, staticMode);
@@ -244,7 +244,7 @@ export function AmbientSectionParticles({
         particles.length = desired;
       }
 
-      // Clamp particles into updated bounds
+      // Mantener las partículas dentro de los límites actualizados
       for (const p of particles) {
         if (p.x > width + p.size) p.x = p.x % width;
         if (p.y > height + p.size) p.y = p.y % height;
@@ -276,7 +276,7 @@ export function AmbientSectionParticles({
       const dy = Math.max(top - py, 0, py - bottom);
       const dist = Math.hypot(dx, dy);
       const t = Math.min(1, dist / margin);
-      // Reduce density/visibility softly to 18% inside the calm form/copy safe zone
+      // Reducir suavemente la visibilidad al 18% dentro de la zona tranquila de formularios y texto
       return 0.18 + 0.82 * t;
     }
 
@@ -285,7 +285,7 @@ export function AmbientSectionParticles({
       ctx.clearRect(0, 0, width, height);
 
       for (const p of particles) {
-        // Soft edge fade near top and bottom of section
+        // Desvanecimiento suave cerca de los bordes superior e inferior de la sección
         const edgeFadeTop = Math.min(1, Math.max(0, (p.y + p.size) / 44));
         const edgeFadeBottom = Math.min(
           1,
@@ -324,7 +324,7 @@ export function AmbientSectionParticles({
           ctx.closePath();
           ctx.fill();
         } else {
-          // Brand fragment sliver
+          // Fragmento lineal decorativo
           const w = p.size * 0.9;
           const h = Math.max(1.8, p.size * 0.24);
           ctx.beginPath();
@@ -349,7 +349,7 @@ export function AmbientSectionParticles({
         const p = particles[i];
         if (p.settled) continue;
 
-        // Gentle distance-based pointer disturbance settling naturally
+        // Perturbación suave basada en la distancia al puntero que se estabiliza de forma natural
         if (pointer.active && pointerR > 0) {
           const dx = p.x - pointer.x;
           const dy = p.y - pointer.y;
@@ -362,7 +362,7 @@ export function AmbientSectionParticles({
           }
         }
 
-        // Natural velocity damping back to ambient wind/gravity drift
+        // Amortiguación natural de velocidad de vuelta al viento y gravedad ambiental
         const damping = Math.exp(-2.8 * dt);
         p.vx *= damping;
         p.vy *= damping;
@@ -374,11 +374,11 @@ export function AmbientSectionParticles({
         p.y += (p.baseSpeed + cfg.gravity + p.vy) * dt;
         p.angle += p.angularVelocity * dt;
 
-        // Horizontal wrap within bounded container
+        // Reingreso horizontal dentro del contenedor acotado
         if (p.x < -p.size * 2) p.x = width + p.size;
         if (p.x > width + p.size * 2) p.x = -p.size;
 
-        // Explicit completion modes
+        // Modos explícitos de finalización
         if (cfg.mode === 'settle') {
           const binIdx = Math.max(
             0,
@@ -397,7 +397,7 @@ export function AmbientSectionParticles({
           if (cfg.mode === 'exit') {
             particles.splice(i, 1);
           } else {
-            // recycle mode: respawn cleanly just above section top
+            // Modo reciclaje: reaparecer limpiamente justo sobre el borde superior de la sección
             p.y = -p.size - Math.random() * 24;
             p.x = Math.random() * width;
             p.vx = 0;
@@ -433,7 +433,7 @@ export function AmbientSectionParticles({
         return;
       }
 
-      // Clamp large time deltas after background tabs or stalled frames
+      // Limitar deltas de tiempo grandes tras cambiar de pestaña o fotogramas lentos
       const dt = lastTime === 0 ? 0.016 : Math.min((now - lastTime) / 1000, 0.05);
       lastTime = now;
 
@@ -449,7 +449,7 @@ export function AmbientSectionParticles({
 
     function syncPlayback() {
       if (shouldRun()) {
-        // Never spawn a second loop
+        // Nunca iniciar un segundo bucle de animación
         if (rafId === null) {
           lastTime = 0;
           rafId = window.requestAnimationFrame(tick);
@@ -464,7 +464,7 @@ export function AmbientSectionParticles({
 
     syncPlaybackRef.current = syncPlayback;
 
-    // Single section-level pointer listeners (never per-particle listeners)
+    // Escuchadores únicos a nivel de sección (nunca por partícula individual)
     function handlePointerMove(e: PointerEvent) {
       if (!section) return;
       const rect = section.getBoundingClientRect();

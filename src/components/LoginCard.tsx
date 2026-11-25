@@ -127,7 +127,7 @@ export function LoginCard({
 
   return (
     <div className="mx-auto w-full max-w-[820px] px-[16px] sm:px-[10px]">
-      {/* Bounded centered section: 3D Metallic Letter S + 4 Bienestar objects -> Headline -> Frosted Glass Login */}
+      {/* Sección centrada y acotada: logo SENA 3D + 4 objetos de Bienestar -> Encabezado -> Login en vidrio esmerilado */}
       <section
         ref={heroSectionRef}
         className="animate-fade-up relative flex flex-col items-center overflow-hidden rounded-[24px] pt-2 pb-[76px] text-center sm:pt-4"
@@ -139,24 +139,24 @@ export function LoginCard({
         />
 
         <div className="relative z-10 flex w-full flex-col items-center">
-          {/* Interactive 3D Metallic Letter "S" + 4 smaller Bienestar objects */}
+          {/* Logo SENA 3D con los otros objetos 3D juntos en el login  */}
           <LetterS3D paused={paused} />
 
-          {/* Opening Headline */}
+          {/* Encabezado principal */}
           <div className="mt-2 max-w-[603px]">
             <h1 className="km-metallic text-[38px] font-bold leading-none tracking-[-0.0109em] sm:text-[46px]">
-              {mode === 'login' ? 'Bienvenido.' : 'Cambiar contraseña.'}
+              {mode === 'login' ? 'Bienvenido' : 'Cambiar contraseña.'}
             </h1>
             <p className="mt-3.5 text-[16px] font-bold leading-[1.3] text-white/95 sm:text-[18px]">
               {mode === 'login'
-                ? 'Inicia sesión con tu cuenta de Bienestar al Aprendiz.'
+                ? 'Inicia Sesión con tu Correo Institucional.'
                 : 'Actualiza la clave de acceso de tu cuenta institucional.'}
             </p>
           </div>
 
-          {/* Frosted Glass Login Dock matching the Header style */}
-          <div className="relative mt-7 w-full max-w-[448px] rounded-[18px] border border-white/25 bg-[#01282a]/52 p-6 text-left shadow-[0_20px_60px_rgba(0,0,0,0.38)] backdrop-blur-2xl sm:p-7">
-            {/* Subtle top glass specular edge matching the Header */}
+          {/* Tarjeta vertical de login en vidrio esmerilado acorde al encabezado */}
+          <div className="relative mt-7 w-full max-w-[368px] rounded-[20px] border border-white/25 bg-[#01282a]/52 px-6 py-9 text-left shadow-[0_20px_60px_rgba(0,0,0,0.38)] backdrop-blur-2xl sm:px-7 sm:py-10">
+            {/* Borde superior especular sutil acorde al encabezado */}
             <span
               aria-hidden="true"
               className="pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-white/45 to-transparent"
@@ -166,7 +166,7 @@ export function LoginCard({
               <button
                 type="button"
                 onClick={() => onModeChange('login')}
-                className="mb-5 inline-flex items-center gap-1.5 text-[13.5px] font-bold text-white/90 transition-colors duration-150 hover:text-white cursor-pointer"
+                className="mb-6 inline-flex items-center gap-1.5 text-[13.5px] font-bold text-white/90 transition-colors duration-150 hover:text-white cursor-pointer"
               >
                 <ArrowLeft className="h-4 w-4" />
                 Volver al ingreso
@@ -176,23 +176,23 @@ export function LoginCard({
             {error && (
               <div
                 role="alert"
-                className="mb-4 rounded-[11px] border border-[#A4CF63]/55 bg-[#011f21]/70 px-4 py-3 text-[13px] font-bold text-white backdrop-blur-md"
+                className="mb-5 rounded-[11px] border border-[#A4CF63]/55 bg-[#011f21]/70 px-4 py-3 text-[13px] font-bold text-white backdrop-blur-md"
               >
                 {error}
               </div>
             )}
 
-            {/* LOGIN FORM (Solo ingreso) */}
+            {/* FORMULARIO DE INICIO DE SESIÓN (Solo ingreso) */}
             {mode === 'login' && (
               <form
                 onSubmit={handleLoginSubmit}
-                className="space-y-4"
+                className="space-y-5"
                 noValidate
               >
                 <div>
                   <label
                     htmlFor="login-email"
-                    className="mb-2 block text-[13px] font-bold tracking-[-0.01em] text-white"
+                    className="mb-2.5 block text-[13px] font-bold tracking-[-0.01em] text-white"
                   >
                     Correo electrónico
                   </label>
@@ -205,7 +205,7 @@ export function LoginCard({
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="correo@soy.sena.edu.co"
-                      className="h-[46px] w-full rounded-[11px] border border-white/25 bg-[#011e20]/45 px-3.5 pr-11 text-[14px] font-bold text-white placeholder:text-white/55 backdrop-blur-md transition-all duration-150 focus:border-[#A4CF63] focus:bg-[#011e20]/68 focus:outline-none focus:ring-2 focus:ring-[#A4CF63]/25"
+                      className="h-[50px] w-full rounded-[11px] border border-white/25 bg-[#011e20]/45 px-3.5 pr-11 text-[14px] font-bold text-white placeholder:text-white/55 backdrop-blur-md transition-all duration-150 focus:border-[#A4CF63] focus:bg-[#011e20]/68 focus:outline-none focus:ring-2 focus:ring-[#A4CF63]/25"
                     />
                     {isEmailValid && (
                       <span
@@ -221,7 +221,7 @@ export function LoginCard({
                 <div>
                   <label
                     htmlFor="login-password"
-                    className="mb-2 block text-[13px] font-bold tracking-[-0.01em] text-white"
+                    className="mb-2.5 block text-[13px] font-bold tracking-[-0.01em] text-white"
                   >
                     Contraseña
                   </label>
@@ -233,7 +233,7 @@ export function LoginCard({
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="••••••••"
-                      className="h-[46px] w-full rounded-[11px] border border-white/25 bg-[#011e20]/45 px-3.5 pr-11 text-[14px] font-bold text-white placeholder:text-white/55 backdrop-blur-md transition-all duration-150 focus:border-[#A4CF63] focus:bg-[#011e20]/68 focus:outline-none focus:ring-2 focus:ring-[#A4CF63]/25"
+                      className="h-[50px] w-full rounded-[11px] border border-white/25 bg-[#011e20]/45 px-3.5 pr-11 text-[14px] font-bold text-white placeholder:text-white/55 backdrop-blur-md transition-all duration-150 focus:border-[#A4CF63] focus:bg-[#011e20]/68 focus:outline-none focus:ring-2 focus:ring-[#A4CF63]/25"
                     />
                     <button
                       type="button"
@@ -254,12 +254,12 @@ export function LoginCard({
                   </div>
                 </div>
 
-                {/* Primary Submit Button echoing the Header's inset badge button */}
-                <div className="pt-1.5">
+                {/* Botón principal de envío con el mismo estilo de insignia del encabezado */}
+                <div className="pt-3">
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="flex h-[46px] w-full items-center justify-center gap-2.5 rounded-[11px] border border-white/35 bg-[#00af00]/78 px-4 text-[14px] font-bold tracking-[-0.01em] text-white shadow-[0_10px_28px_rgba(0,0,0,0.3)] backdrop-blur-md transition-all duration-150 hover:border-white/50 hover:bg-[#00af00]/92 active:scale-[0.985] disabled:cursor-not-allowed disabled:opacity-65 cursor-pointer"
+                    className="flex h-[50px] w-full items-center justify-center gap-2.5 rounded-[11px] border border-white/35 bg-[#00af00]/78 px-4 text-[14px] font-bold tracking-[-0.01em] text-white shadow-[0_10px_28px_rgba(0,0,0,0.3)] backdrop-blur-md transition-all duration-150 hover:border-white/50 hover:bg-[#00af00]/92 active:scale-[0.985] disabled:cursor-not-allowed disabled:opacity-65 cursor-pointer"
                   >
                     {submitting ? (
                       <>
@@ -283,28 +283,28 @@ export function LoginCard({
                   </button>
                 </div>
 
-                <div className="py-1">
+                <div className="py-2">
                   <div className="h-px w-full bg-gradient-to-r from-transparent via-white/25 to-transparent" />
                 </div>
 
-                {/* Secondary Action matching the Header's dark translucent inset button */}
+                {/* Acción secundaria con el mismo estilo translúcido oscuro del encabezado */}
                 <button
                   type="button"
                   onClick={() => {
                     setResetEmail(email);
                     onModeChange('change-password');
                   }}
-                  className="flex h-[42px] w-full items-center justify-center gap-2 rounded-[10px] border border-white/28 bg-[#011f21]/48 px-4 text-[13.5px] font-bold tracking-[-0.01em] text-white backdrop-blur-md transition-all duration-150 hover:border-white/45 hover:bg-white/15 hover:text-white active:scale-[0.985] cursor-pointer"
+                  className="flex h-[46px] w-full items-center justify-center gap-2 rounded-[10px] border border-white/28 bg-[#011f21]/48 px-4 text-[13.5px] font-bold tracking-[-0.01em] text-white backdrop-blur-md transition-all duration-150 hover:border-white/45 hover:bg-white/15 hover:text-white active:scale-[0.985] cursor-pointer"
                 >
                   Cambiar contraseña
                 </button>
               </form>
             )}
 
-            {/* CHANGE PASSWORD FORM */}
+            {/* FORMULARIO DE CAMBIO DE CONTRASEÑA */}
             {mode === 'change-password' &&
               (passwordUpdated ? (
-                <div className="rounded-[12px] border border-white/22 bg-[#011e20]/55 p-5 text-center backdrop-blur-md">
+                <div className="rounded-[12px] border border-white/22 bg-[#011e20]/55 p-6 text-center backdrop-blur-md">
                   <CheckCircle2 className="mx-auto h-8 w-8 text-[#A4CF63]" />
                   <p className="mt-3 text-[17px] font-bold text-white">
                     Contraseña actualizada.
@@ -316,7 +316,7 @@ export function LoginCard({
                   <button
                     type="button"
                     onClick={() => onModeChange('login')}
-                    className="mt-5 inline-flex h-[42px] items-center justify-center gap-2 rounded-[10px] border border-white/35 bg-[#00af00]/78 px-5 text-[13.5px] font-bold text-white backdrop-blur-md transition-all hover:border-white/50 hover:bg-[#00af00]/92 cursor-pointer"
+                    className="mt-5 inline-flex h-[46px] items-center justify-center gap-2 rounded-[10px] border border-white/35 bg-[#00af00]/78 px-5 text-[13.5px] font-bold text-white backdrop-blur-md transition-all hover:border-white/50 hover:bg-[#00af00]/92 cursor-pointer"
                   >
                     <span>Ir a iniciar sesión</span>
                     <span
@@ -330,13 +330,13 @@ export function LoginCard({
               ) : (
                 <form
                   onSubmit={handleChangePasswordSubmit}
-                  className="space-y-4"
+                  className="space-y-5"
                   noValidate
                 >
                   <div>
                     <label
                       htmlFor="reset-email"
-                      className="mb-2 block text-[13px] font-bold text-white"
+                      className="mb-2.5 block text-[13px] font-bold text-white"
                     >
                       Correo electrónico
                     </label>
@@ -346,14 +346,14 @@ export function LoginCard({
                       value={resetEmail}
                       onChange={(e) => setResetEmail(e.target.value)}
                       placeholder="correo@soy.sena.edu.co"
-                      className="h-[46px] w-full rounded-[11px] border border-white/25 bg-[#011e20]/45 px-3.5 text-[14px] font-bold text-white placeholder:text-white/55 backdrop-blur-md transition-all focus:border-[#A4CF63] focus:bg-[#011e20]/68 focus:outline-none focus:ring-2 focus:ring-[#A4CF63]/25"
+                      className="h-[50px] w-full rounded-[11px] border border-white/25 bg-[#011e20]/45 px-3.5 text-[14px] font-bold text-white placeholder:text-white/55 backdrop-blur-md transition-all focus:border-[#A4CF63] focus:bg-[#011e20]/68 focus:outline-none focus:ring-2 focus:ring-[#A4CF63]/25"
                     />
                   </div>
 
                   <div>
                     <label
                       htmlFor="new-password"
-                      className="mb-2 block text-[13px] font-bold text-white"
+                      className="mb-2.5 block text-[13px] font-bold text-white"
                     >
                       Nueva contraseña
                     </label>
@@ -364,7 +364,7 @@ export function LoginCard({
                         value={newPassword}
                         onChange={(e) => setNewPassword(e.target.value)}
                         placeholder="Mínimo 6 caracteres"
-                        className="h-[46px] w-full rounded-[11px] border border-white/25 bg-[#011e20]/45 px-3.5 pr-11 text-[14px] font-bold text-white placeholder:text-white/55 backdrop-blur-md transition-all focus:border-[#A4CF63] focus:bg-[#011e20]/68 focus:outline-none focus:ring-2 focus:ring-[#A4CF63]/25"
+                        className="h-[50px] w-full rounded-[11px] border border-white/25 bg-[#011e20]/45 px-3.5 pr-11 text-[14px] font-bold text-white placeholder:text-white/55 backdrop-blur-md transition-all focus:border-[#A4CF63] focus:bg-[#011e20]/68 focus:outline-none focus:ring-2 focus:ring-[#A4CF63]/25"
                       />
                       <button
                         type="button"
@@ -388,7 +388,7 @@ export function LoginCard({
                   <div>
                     <label
                       htmlFor="confirm-password"
-                      className="mb-2 block text-[13px] font-bold text-white"
+                      className="mb-2.5 block text-[13px] font-bold text-white"
                     >
                       Confirmar contraseña
                     </label>
@@ -398,14 +398,14 @@ export function LoginCard({
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
                       placeholder="Repite tu nueva contraseña"
-                      className="h-[46px] w-full rounded-[11px] border border-white/25 bg-[#011e20]/45 px-3.5 text-[14px] font-bold text-white placeholder:text-white/55 backdrop-blur-md transition-all focus:border-[#A4CF63] focus:bg-[#011e20]/68 focus:outline-none focus:ring-2 focus:ring-[#A4CF63]/25"
+                      className="h-[50px] w-full rounded-[11px] border border-white/25 bg-[#011e20]/45 px-3.5 text-[14px] font-bold text-white placeholder:text-white/55 backdrop-blur-md transition-all focus:border-[#A4CF63] focus:bg-[#011e20]/68 focus:outline-none focus:ring-2 focus:ring-[#A4CF63]/25"
                     />
                   </div>
 
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="mt-1 flex h-[46px] w-full items-center justify-center gap-2.5 rounded-[11px] border border-white/35 bg-[#00af00]/78 px-4 text-[14px] font-bold text-white shadow-[0_10px_28px_rgba(0,0,0,0.3)] backdrop-blur-md transition-all hover:border-white/50 hover:bg-[#00af00]/92 disabled:opacity-65 cursor-pointer"
+                    className="mt-2 flex h-[50px] w-full items-center justify-center gap-2.5 rounded-[11px] border border-white/35 bg-[#00af00]/78 px-4 text-[14px] font-bold text-white shadow-[0_10px_28px_rgba(0,0,0,0.3)] backdrop-blur-md transition-all hover:border-white/50 hover:bg-[#00af00]/92 disabled:opacity-65 cursor-pointer"
                   >
                     {submitting ? (
                       <>
